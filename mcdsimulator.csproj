@@ -84,7 +84,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\conf.ini" />
+    <EmbeddedResource Include="Resources\conf.ini" />
     <None Include="Resources\np6-clear.png" />
   </ItemGroup>
   <ItemGroup>

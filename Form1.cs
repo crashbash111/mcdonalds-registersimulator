@@ -23,7 +23,8 @@ namespace WindowsFormsApp1
             }
             else
             {
-                MessageBox.Show("There was an error loading the configuration file.");
+                MessageBox.Show("There was an error loading the configuration file, or information is missing. Please fill in the conf.ini and try again.");
+                Application.Exit();
             }
             initCountButtons();
         }
