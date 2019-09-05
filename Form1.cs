@@ -62,5 +62,10 @@ namespace WindowsFormsApp1
                 panel2.Controls.Add(numButtons[i]);
             }
         }
+
+        private void Button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
