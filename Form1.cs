@@ -17,13 +17,17 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            if (Configurator.ReadConfigurationFile())
+            {
+                MessageBox.Show("Loaded Configuration File Successfully");
+            }
+            else
+            {
+                MessageBox.Show("There was an error loading the configuration file.");
+            }
             initCountButtons();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("This is a register.");
-        }
 
         Button[] numButtons = new Button[11];
 
@@ -61,11 +65,6 @@ namespace WindowsFormsApp1
                 }
                 panel2.Controls.Add(numButtons[i]);
             }
-        }
-
-        private void Button1_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }
