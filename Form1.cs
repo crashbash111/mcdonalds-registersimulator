@@ -74,7 +74,7 @@ namespace WindowsFormsApp1
                     y.BackColor = Color.FromName(x.bgup);
                     y.ForeColor = Color.FromName(x.textup);
                 }
-                if (x.category == 1)
+                if (x.screen.number == 1)
                 {
                     panel2.Controls.Add(y);
                 }

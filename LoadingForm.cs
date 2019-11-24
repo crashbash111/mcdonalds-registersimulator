@@ -32,6 +32,7 @@ namespace WindowsFormsApp1
                     this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()
                     {
                         progressBar.Value = mainForm.loadingProgress;
+                        labScreen.Text = ("Loading " + Configurator.testImgList[mainForm.loadingProgress].screen.title.Replace(@"\n", " "));
                         label.Text = ("Generating Button " + Configurator.testImgList[mainForm.loadingProgress].title.Replace(@"\n", " "));
                     });
                     Thread.Sleep(100);

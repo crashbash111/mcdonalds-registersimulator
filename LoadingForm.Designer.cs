@@ -30,6 +30,7 @@
         {
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.label = new System.Windows.Forms.Label();
+            this.labScreen = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar
@@ -42,16 +43,27 @@
             // label
             // 
             this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(13, 42);
+            this.label.Location = new System.Drawing.Point(12, 63);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(0, 13);
+            this.label.Size = new System.Drawing.Size(38, 13);
             this.label.TabIndex = 1;
+            this.label.Text = "Button";
+            // 
+            // labScreen
+            // 
+            this.labScreen.AutoSize = true;
+            this.labScreen.Location = new System.Drawing.Point(12, 45);
+            this.labScreen.Name = "labScreen";
+            this.labScreen.Size = new System.Drawing.Size(41, 13);
+            this.labScreen.TabIndex = 2;
+            this.labScreen.Text = "Screen";
             // 
             // LoadingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 65);
+            this.ClientSize = new System.Drawing.Size(500, 87);
+            this.Controls.Add(this.labScreen);
             this.Controls.Add(this.label);
             this.Controls.Add(this.progressBar);
             this.MaximizeBox = false;
@@ -70,5 +82,6 @@
 
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label label;
+        private System.Windows.Forms.Label labScreen;
     }
 }

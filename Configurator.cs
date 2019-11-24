@@ -17,12 +17,13 @@ namespace WindowsFormsApp1
         static string xmlPath = "D:/Personal/Joshua/Downloads/NP6-assets/NP6 Simulator_files/screen.xml";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
+        public static List<Screen> screenList = new List<Screen>();
 
         static public bool ReadConfigurationFile()
         {
             try
             {
-                int activeScreen = 0;
+                Screen activeScreen = new Screen(-1, "");
                 XmlTextReader reader = new XmlTextReader(xmlPath);
                 while(reader.Read()){
                     
@@ -30,14 +31,19 @@ namespace WindowsFormsApp1
                         case XmlNodeType.Element:
                             if(reader.Name == "Screen")
                             {
-                                activeScreen = int.Parse(reader.GetAttribute("number"));
+                                int y = int.Parse(reader.GetAttribute("number"));
+                                if (y != activeScreen.number)
+                                {
+                                    activeScreen = new Screen(y, reader.GetAttribute("title"));
+                                    screenList.Add(activeScreen);
+                                }
                             }
                             if(reader.Name == "Button"){
                                 RegisterButton tmpButton = new RegisterButton();
                                 try{
                                     tmpButton.title = reader.GetAttribute("title");
                                     tmpButton.number = int.Parse(reader.GetAttribute("number")) - 1;
-                                    tmpButton.category = activeScreen;//int.Parse(reader.GetAttribute("category"));
+                                    tmpButton.screen = activeScreen;//int.Parse(reader.GetAttribute("category"));
                                     tmpButton.imgup = reader.GetAttribute("bitmap");
                                     tmpButton.imgdn = reader.GetAttribute("bitmapdn");
                                     tmpButton.w = int.Parse(reader.GetAttribute("v"));

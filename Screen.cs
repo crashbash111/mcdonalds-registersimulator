@@ -8,8 +8,8 @@ namespace WindowsFormsApp1
 {
     class Screen
     {
-        int number;
-        string title;
+        public int number;
+        public string title;
         public Screen()
         {
 
