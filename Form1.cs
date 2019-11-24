@@ -24,11 +24,13 @@ namespace WindowsFormsApp1
             }
             //initCountButtons();
             TestButtonLoad();
+            (Configurator.screenList.Find(x => x.number == 1).panel as Panel).Visible = true;
         }
 
 
         Button[] numButtons = new Button[10];
         List<Button> tmpButtons = new List<Button>();
+        List<Panel> screenPanels = new List<Panel>();
         public int loadingProgress;
 
         static string baseDir = "D:/Personal/Joshua/Downloads/NP6-assets/NP6 Simulator_files/repository.1024x768/";
@@ -53,6 +55,20 @@ namespace WindowsFormsApp1
             loadFormThread.IsBackground = true;
             loadFormThread.Start();
             loadingProgress = 0;
+            foreach(Screen t in Configurator.screenList)
+            {
+                Panel pan = new Panel();
+                pan.Top = panel2.Top;
+                pan.Left = panel2.Left;
+                pan.Height = panel2.Height;
+                pan.Width = panel2.Width;
+                pan.BackColor = panel2.BackColor;
+                pan.Tag = t;
+                t.panel = pan;
+                pan.Visible = false;
+                screenPanels.Add(pan);
+                this.Controls.Add(pan);
+            }
             foreach(RegisterButton x in Configurator.testImgList)
             {
                 Button y = new Button();
@@ -74,14 +90,14 @@ namespace WindowsFormsApp1
                     y.BackColor = Color.FromName(x.bgup);
                     y.ForeColor = Color.FromName(x.textup);
                 }
-                if (x.screen.number == 1)
-                {
-                    panel2.Controls.Add(y);
-                }
+                screenPanels.Find(p => p.Tag as Screen == x.screen).Controls.Add(y);
+                //if (x.screen.number == 1)
+                //{
+                //    panel2.Controls.Add(y);
+                //}
                 tmpButtons.Add(y);
                 loadingProgress++;
             }
-            
         }
 
         private void initCountButtons()

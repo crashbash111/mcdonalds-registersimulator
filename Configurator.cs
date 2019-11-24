@@ -53,6 +53,7 @@ namespace WindowsFormsApp1
                                     tmpButton.bgup = reader.GetAttribute("bgup");
                                     tmpButton.bgdn = reader.GetAttribute("bgdn");
                                     testImgList.Add(tmpButton);
+                                    activeScreen.buttons.Add(tmpButton);
                                 }
                                 catch{
 
