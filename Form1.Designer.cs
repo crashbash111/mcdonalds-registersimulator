@@ -31,6 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textScreenChange = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,6 +67,14 @@
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
             // 
+            // textScreenChange
+            // 
+            this.textScreenChange.Location = new System.Drawing.Point(476, 74);
+            this.textScreenChange.Name = "textScreenChange";
+            this.textScreenChange.Size = new System.Drawing.Size(100, 20);
+            this.textScreenChange.TabIndex = 2;
+            this.textScreenChange.TextChanged += new System.EventHandler(this.TextScreenChange_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -73,12 +82,14 @@
             this.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.np6_clear;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1262, 899);
+            this.Controls.Add(this.textScreenChange);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "McDonalds";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -87,6 +98,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox textScreenChange;
     }
 }
 

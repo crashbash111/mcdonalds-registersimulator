@@ -14,7 +14,7 @@ namespace WindowsFormsApp1
 {
     static class Configurator
     {
-        static string xmlPath = "D:/Personal/Joshua/Downloads/NP6-assets/NP6 Simulator_files/screen.xml";
+        static string xmlPath = "D:/Personal/Joshua/Google Drive/McDonalds/NP/NP6 24-11-19/PosData/screen.xml";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
         public static List<Screen> screenList = new List<Screen>();

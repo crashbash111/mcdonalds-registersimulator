@@ -33,7 +33,15 @@ namespace WindowsFormsApp1
                     {
                         progressBar.Value = mainForm.loadingProgress;
                         labScreen.Text = ("Loading " + Configurator.testImgList[mainForm.loadingProgress].screen.title.Replace(@"\n", " "));
-                        label.Text = (Configurator.testImgList[mainForm.loadingProgress].title.Replace(@"\n", " "));
+                        try
+                        {
+                            label.Text = (Configurator.testImgList[mainForm.loadingProgress].title.Replace(@"\n", " "));
+                        }
+                        catch
+                        {
+                            //null
+                        }
+                        
                     });
                     Thread.Sleep(100);
             }

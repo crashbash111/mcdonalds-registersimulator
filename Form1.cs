@@ -24,7 +24,7 @@ namespace WindowsFormsApp1
             }
             //initCountButtons();
             TestButtonLoad();
-            (Configurator.screenList.Find(x => x.number == 1).panel as Panel).Visible = true;
+            ChangeActiveMenu(1);
         }
 
 
@@ -33,7 +33,17 @@ namespace WindowsFormsApp1
         List<Panel> screenPanels = new List<Panel>();
         public int loadingProgress;
 
-        static string baseDir = "D:/Personal/Joshua/Downloads/NP6-assets/NP6 Simulator_files/repository.1024x768/";
+
+        private void ChangeActiveMenu(int screenIndex)
+        {
+            foreach(Panel pan in screenPanels)
+            {
+                pan.Visible = false;
+            }
+            (Configurator.screenList.Find(x => x.number == screenIndex).panel as Panel).Visible = true;
+        }
+
+        static string baseDir = "D:/Personal/Joshua/Downloads/repository.1024x768/";
         private string FetchImgDir(string imgName)
         {
             return baseDir + imgName;
@@ -86,7 +96,15 @@ namespace WindowsFormsApp1
                 }
                 catch
                 {
-                    y.Text = (x.title.Replace(@"\n", Environment.NewLine));
+                    try
+                    {
+                        y.Text = (x.title.Replace(@"\n", Environment.NewLine));
+                    }
+                    catch
+                    {
+                        //null
+                    }
+                    
                     y.BackColor = Color.FromName(x.bgup);
                     y.ForeColor = Color.FromName(x.textup);
                 }
@@ -122,6 +140,21 @@ namespace WindowsFormsApp1
                     numButtons[i].BackColor = Color.White;
                 }
                 panel2.Controls.Add(numButtons[i]);
+            }
+        }
+
+        private void TextScreenChange_TextChanged(object sender, EventArgs e)
+        {
+            if(textScreenChange.Text != "")
+            {
+                try
+                {
+                    ChangeActiveMenu(int.Parse(textScreenChange.Text));
+                }
+                catch
+                {
+                    //not valid
+                }
             }
         }
     }
