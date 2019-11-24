@@ -13,7 +13,6 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        int selectedNumber = 0;
 
         public Form1()
         {
@@ -23,7 +22,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("There was an error loading the configuration file, or information is missing. Please fill in the conf.ini and try again.");
                 Application.Exit();
             }
-            initCountButtons();
+            //initCountButtons();
             TestButtonLoad();
         }
 
@@ -58,12 +57,12 @@ namespace WindowsFormsApp1
             {
                 Button y = new Button();
                 y.Tag = x;
-                y.Size = new Size(64, 64);
-                y.Top = 70 + ((loadingProgress / 13) * 70);
-                y.Left = ((loadingProgress % 13) * (y.Width + 5)) + 5;
+                y.Size = new Size(64 * x.h, 64 * x.w); //still needs 5 spacing accounted for
+                y.Top = (x.number / 10) * 70;
+                y.Left = ((x.number % 10) * (y.Width + 5)) + 5;
                 try
                 {
-                    y.Image = FetchImg(x.imgup + "x");
+                    y.Image = FetchImg(x.imgup);
                     y.Text = "";
                     y.TabStop = false;
                     y.FlatStyle = FlatStyle.Flat;
@@ -75,7 +74,10 @@ namespace WindowsFormsApp1
                     y.BackColor = Color.FromName(x.bgup);
                     y.ForeColor = Color.FromName(x.textup);
                 }
-                panel2.Controls.Add(y);
+                if (x.category == 1)
+                {
+                    panel2.Controls.Add(y);
+                }
                 tmpButtons.Add(y);
                 loadingProgress++;
             }

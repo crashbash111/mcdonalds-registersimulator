@@ -10,6 +10,7 @@ namespace WindowsFormsApp1
     class RegisterButton
     {
         public string title;
+        public int number;
         public int category;
         public string imgup;
         public string imgdn;
@@ -23,9 +24,10 @@ namespace WindowsFormsApp1
         {
 
         }
-        public RegisterButton(string title, string category, string imgup, string imgdn, string w, string h, string textup, string textdn, string bgup, string bgdn)
+        public RegisterButton(string title, string number, string category, string imgup, string imgdn, string w, string h, string textup, string textdn, string bgup, string bgdn)
         {
             this.title = title;
+            this.number = int.Parse(number);
             this.category = int.Parse(category);
             this.imgup = imgup;
             this.imgdn = imgdn;

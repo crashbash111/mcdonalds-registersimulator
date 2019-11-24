@@ -22,15 +22,22 @@ namespace WindowsFormsApp1
         {
             try
             {
+                int activeScreen = 0;
                 XmlTextReader reader = new XmlTextReader(xmlPath);
                 while(reader.Read()){
+                    
                     switch(reader.NodeType){
                         case XmlNodeType.Element:
+                            if(reader.Name == "Screen")
+                            {
+                                activeScreen = int.Parse(reader.GetAttribute("number"));
+                            }
                             if(reader.Name == "Button"){
                                 RegisterButton tmpButton = new RegisterButton();
                                 try{
                                     tmpButton.title = reader.GetAttribute("title");
-                                    tmpButton.category = int.Parse(reader.GetAttribute("category"));
+                                    tmpButton.number = int.Parse(reader.GetAttribute("number")) - 1;
+                                    tmpButton.category = activeScreen;//int.Parse(reader.GetAttribute("category"));
                                     tmpButton.imgup = reader.GetAttribute("bitmap");
                                     tmpButton.imgdn = reader.GetAttribute("bitmapdn");
                                     tmpButton.w = int.Parse(reader.GetAttribute("v"));
