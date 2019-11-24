@@ -7,28 +7,54 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using WindowsFormsApp1.Properties;
+using System.Xml;
 
 namespace WindowsFormsApp1
 {
     static class Configurator
     {
-        static string confPath = "conf.ini";
+        static string xmlPath = "D:/Personal/Joshua/Downloads/NP6-assets/NP6 Simulator_files/screen.xml";
         static bool displayException = true;
+        public static List<RegisterButton> testImgList = new List<RegisterButton>();
 
         static public bool ReadConfigurationFile()
         {
             try
             {
-                using (Stream stream = Assembly.GetEntryAssembly().GetManifestResourceStream(confPath))
-                {
-                    using(StreamReader reader = new StreamReader(stream))
-                    {
-                        string str;
-                        while ((str = reader.ReadLine()) != null)
-                        {
-                            ConfFactory(str);
-                        }
+                XmlTextReader reader = new XmlTextReader(xmlPath);
+                while(reader.Read()){
+                    switch(reader.NodeType){
+                        case XmlNodeType.Element:
+                            if(reader.Name == "Button"){
+                                RegisterButton tmpButton = new RegisterButton();
+                                try{
+                                    tmpButton.title = reader.GetAttribute("title");
+                                    tmpButton.category = int.Parse(reader.GetAttribute("category"));
+                                    tmpButton.imgup = reader.GetAttribute("bitmap");
+                                    tmpButton.imgdn = reader.GetAttribute("bitmapdn");
+                                    tmpButton.w = int.Parse(reader.GetAttribute("v"));
+                                    tmpButton.h = int.Parse(reader.GetAttribute("h"));
+                                    tmpButton.textup = reader.GetAttribute("textup");
+                                    tmpButton.textdn = reader.GetAttribute("textdn");
+                                    tmpButton.bgup = reader.GetAttribute("bgup");
+                                    tmpButton.bgdn = reader.GetAttribute("bgdn");
+                                    testImgList.Add(tmpButton);
+                                }
+                                catch{
+
+                                }
+                                
+                            }
+                            break;
+                        case XmlNodeType.Text:
+                            
+                            //ConfFactory(reader.Value);
+                            break;
+                        case XmlNodeType.EndElement:
+                            break;
                     }
+                    //ConfFactory(reader.Name);
                 }
             }
             catch(Exception e)
