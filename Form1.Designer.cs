@@ -28,50 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textScreenChange = new System.Windows.Forms.TextBox();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(200)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.panel3);
             this.panel1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel1.Location = new System.Drawing.Point(6, 37);
+            this.panel1.Location = new System.Drawing.Point(2, 29);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(374, 853);
+            this.panel1.Size = new System.Drawing.Size(300, 664);
             this.panel1.TabIndex = 0;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(200)))));
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel3.Location = new System.Drawing.Point(-2, -1);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(51, 38);
-            this.panel3.TabIndex = 2;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(208)))), ((int)(((byte)(200)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel2.Location = new System.Drawing.Point(386, 117);
+            this.panel2.Location = new System.Drawing.Point(308, 88);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(886, 810);
+            this.panel2.Size = new System.Drawing.Size(699, 636);
             this.panel2.TabIndex = 1;
             this.panel2.Visible = false;
             // 
             // textScreenChange
             // 
-            this.textScreenChange.Location = new System.Drawing.Point(476, 74);
+            this.textScreenChange.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.textScreenChange.Location = new System.Drawing.Point(380, 37);
             this.textScreenChange.Name = "textScreenChange";
-            this.textScreenChange.Size = new System.Drawing.Size(100, 20);
+            this.textScreenChange.Size = new System.Drawing.Size(107, 20);
             this.textScreenChange.TabIndex = 2;
             this.textScreenChange.TextChanged += new System.EventHandler(this.TextScreenChange_TextChanged);
             // 
@@ -81,13 +70,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.np6_clear;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1262, 899);
+            this.ClientSize = new System.Drawing.Size(1012, 729);
             this.Controls.Add(this.textScreenChange);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "McDonalds";
-            this.panel1.ResumeLayout(false);
+            this.Text = "McDonalds Register Simulator";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,7 +86,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TextBox textScreenChange;
     }
 }

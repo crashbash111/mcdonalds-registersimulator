@@ -20,9 +20,12 @@ namespace WindowsFormsApp1
         public string textdn;
         public string bgup;
         public string bgdn;
+        public int location;
+        public int productCode;
         public RegisterButton()
         {
-
+            location = -1;
+            productCode = -1;
         }
         public RegisterButton(string title, string number, Screen screen, string imgup, string imgdn, string w, string h, string textup, string textdn, string bgup, string bgdn)
         {
@@ -37,6 +40,8 @@ namespace WindowsFormsApp1
             this.textdn = textdn;
             this.bgup = bgup;
             this.bgdn = bgdn;
+            location = -1;
+            productCode = -1;
         }
     }
 }

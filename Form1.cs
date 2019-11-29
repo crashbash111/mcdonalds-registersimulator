@@ -24,7 +24,9 @@ namespace WindowsFormsApp1
             }
             //initCountButtons();
             TestButtonLoad();
-            ChangeActiveMenu(1);
+            Configurator.ReadOutages(tmpButtons);
+            CurrentlyLoadedScreen = 1;
+            //ChangeActiveMenu(1);
         }
 
 
@@ -32,6 +34,7 @@ namespace WindowsFormsApp1
         List<Button> tmpButtons = new List<Button>();
         List<Panel> screenPanels = new List<Panel>();
         public int loadingProgress;
+        private int currentlyLoadedScreen;
 
 
         private void ChangeActiveMenu(int screenIndex)
@@ -44,6 +47,22 @@ namespace WindowsFormsApp1
         }
 
         static string baseDir = "D:/Personal/Joshua/Downloads/repository.1024x768/";
+
+        public int CurrentlyLoadedScreen
+        {
+            get
+            {
+                return currentlyLoadedScreen;
+            }
+
+            set
+            {
+                (Configurator.screenList.Find(x => x.number == value).panel as Panel).Visible = true;
+                (Configurator.screenList.Find(x => x.number == currentlyLoadedScreen).panel as Panel).Visible = false;
+                currentlyLoadedScreen = value;
+            }
+        }
+
         private string FetchImgDir(string imgName)
         {
             return baseDir + imgName;
@@ -88,11 +107,17 @@ namespace WindowsFormsApp1
                 y.Left = ((x.number % 10) * (y.Width + 5)) + 5;
                 try
                 {
-                    y.Image = FetchImg(x.imgup);
+                    if (x.location != -1)
+                    {
+                        y.Click += Y_Click;
+                    }
+                    y.BackgroundImage = FetchImg(x.imgup);
+                    y.BackgroundImageLayout = ImageLayout.Stretch;
                     y.Text = "";
                     y.TabStop = false;
                     y.FlatStyle = FlatStyle.Flat;
                     y.FlatAppearance.BorderSize = 0;
+                    
                 }
                 catch
                 {
@@ -116,6 +141,13 @@ namespace WindowsFormsApp1
                 tmpButtons.Add(y);
                 loadingProgress++;
             }
+        }
+
+        private void Y_Click(object sender, EventArgs e)
+        {
+            Button x = sender as Button;
+            RegisterButton y = x.Tag as RegisterButton;
+            textScreenChange.Text = y.location.ToString();
         }
 
         private void initCountButtons()
@@ -149,13 +181,18 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    ChangeActiveMenu(int.Parse(textScreenChange.Text));
+                    CurrentlyLoadedScreen = (int.Parse(textScreenChange.Text));
                 }
                 catch
                 {
                     //not valid
                 }
             }
+        }
+
+        private void Label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
