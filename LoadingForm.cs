@@ -27,8 +27,6 @@ namespace WindowsFormsApp1
         {
             while (mainForm.loadingProgress < progressBar.Maximum-1)
             {
-                
-
                     this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()
                     {
                         progressBar.Value = mainForm.loadingProgress;

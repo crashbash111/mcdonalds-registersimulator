@@ -18,14 +18,45 @@ namespace WindowsFormsApp1
         public int h;
         public string textup;
         public string textdn;
-        public string bgup;
-        public string bgdn;
+        private string bgup;
+        private string bgdn;
+        public List<string> actionType;
         public int location;
         public int productCode;
+
+        public string Bgup
+        {
+            get
+            {
+                return bgup;
+            }
+
+            set
+            {
+                //converts colour to accurate register colour
+                bgup = Configurator.ConvertColour(value);
+            }
+        }
+
+        public string Bgdn
+        {
+            get
+            {
+                return bgdn;
+            }
+
+            set
+            {
+                //converts colour to accurate register colour
+                bgdn = Configurator.ConvertColour(value);
+            }
+        }
+
         public RegisterButton()
         {
             location = -1;
             productCode = -1;
+            actionType = new List<string>();
         }
         public RegisterButton(string title, string number, Screen screen, string imgup, string imgdn, string w, string h, string textup, string textdn, string bgup, string bgdn)
         {
@@ -38,10 +69,11 @@ namespace WindowsFormsApp1
             this.h = int.Parse(h);
             this.textup = textup;
             this.textdn = textdn;
-            this.bgup = bgup;
-            this.bgdn = bgdn;
+            this.Bgup = bgup;
+            this.Bgdn = bgdn;
             location = -1;
             productCode = -1;
+            actionType = new List<string>();
         }
     }
 }

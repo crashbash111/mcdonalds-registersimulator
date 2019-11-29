@@ -10,6 +10,8 @@ namespace WindowsFormsApp1
     {
         public int number;
         public string title;
+        public int type;
+        public string bg;
         public List<RegisterButton> buttons;
         public Object panel;
         public Screen()
@@ -17,10 +19,12 @@ namespace WindowsFormsApp1
             buttons = new List<RegisterButton>();
         }
 
-        public Screen(int number, string title)
+        public Screen(int number, string title, int type, string bg)
         {
             this.number = number;
             this.title = title;
+            this.type = type;
+            this.bg = bg;
             buttons = new List<RegisterButton>();
         }
     }

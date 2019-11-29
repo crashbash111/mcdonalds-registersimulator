@@ -25,7 +25,7 @@ namespace WindowsFormsApp1
         {
             try
             {
-                Screen activeScreen = new Screen(-1, "");
+                Screen activeScreen = new Screen(-1, "", 1000,"");
                 Button activeButton = new Button();
                 XmlTextReader reader = new XmlTextReader(xmlPath);
                 while(reader.Read()){
@@ -37,7 +37,7 @@ namespace WindowsFormsApp1
                                 int y = int.Parse(reader.GetAttribute("number"));
                                 if (y != activeScreen.number)
                                 {
-                                    activeScreen = new Screen(y, reader.GetAttribute("title"));
+                                    activeScreen = new Screen(y, reader.GetAttribute("title"), int.Parse(reader.GetAttribute("type")), reader.GetAttribute("bgimage"));
                                     screenList.Add(activeScreen);
                                 }
                             }
@@ -53,8 +53,8 @@ namespace WindowsFormsApp1
                                     tmpButton.h = int.Parse(reader.GetAttribute("h"));
                                     tmpButton.textup = reader.GetAttribute("textup");
                                     tmpButton.textdn = reader.GetAttribute("textdn");
-                                    tmpButton.bgup = reader.GetAttribute("bgup");
-                                    tmpButton.bgdn = reader.GetAttribute("bgdn");
+                                    tmpButton.Bgup = reader.GetAttribute("bgup");
+                                    tmpButton.Bgdn = reader.GetAttribute("bgdn");
                                     try
                                     {
                                         tmpButton.productCode = int.Parse(reader.GetAttribute("productCode"));
@@ -70,7 +70,8 @@ namespace WindowsFormsApp1
                                         //MessageBox.Show("loop" + tmpButton.title + " " + reader.NodeType.ToString() + " " + reader.Name);
                                         if (reader.Name == "Action")
                                         {
-                                            if (reader.GetAttribute("workflow") == "WF_ShowScreen")
+                                            tmpButton.actionType.Add(reader.GetAttribute("workflow"));
+                                            if (reader.GetAttribute("workflow") == "WF_ShowScreen" || reader.GetAttribute("workflow") == "WF_ShowFloatScreen")
                                             {
                                                 reader.Read();
                                                 while (reader.Name != "Action" && reader.NodeType != XmlNodeType.EndElement)
@@ -81,6 +82,10 @@ namespace WindowsFormsApp1
                                                     }
                                                     reader.Read();
                                                 }
+                                            }
+                                            else if(reader.GetAttribute("workflow") == "WF_ShowManagerMenu")
+                                            {
+                                                tmpButton.location = 900;
                                             }
                                         }
                                         reader.Read();
@@ -115,6 +120,21 @@ namespace WindowsFormsApp1
             return true;
         }
 
+        static public string ConvertColour(string colorToConvert)
+        {
+            //checks to ensure colour code is converted to something Visual Studio supports
+            if(colorToConvert == "LIGHTRED")
+            {
+                return "Tomato";
+            }
+            if(colorToConvert == "BRIGHTWHITE")
+            {
+                return "FloralWhite";
+            }
+            //no converting required
+            return colorToConvert;
+        }
+
         static public void ReadOutages(List<Button> list)
         {
             try
@@ -137,9 +157,10 @@ namespace WindowsFormsApp1
                                         t.Text = "OUTAGE";
                                         t.BackColor = Color.Yellow;
                                         t.AutoSize = true;
-                                        
                                         t.TextAlign = ContentAlignment.BottomRight;
                                         x.Controls.Add(t);
+                                        t.Top = x.Height - t.Height;
+                                        t.Left = x.Width - t.Width;
                                         //x.TextAlign = System.Drawing.ContentAlignment.BottomRight;
                                     }
                                 }

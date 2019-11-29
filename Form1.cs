@@ -25,7 +25,9 @@ namespace WindowsFormsApp1
             //initCountButtons();
             TestButtonLoad();
             Configurator.ReadOutages(tmpButtons);
-            CurrentlyLoadedScreen = 1;
+            MainScreen = 1;
+            this.BringToFront();
+            this.DoubleBuffered = true;
             //ChangeActiveMenu(1);
         }
 
@@ -34,9 +36,11 @@ namespace WindowsFormsApp1
         List<Button> tmpButtons = new List<Button>();
         List<Panel> screenPanels = new List<Panel>();
         public int loadingProgress;
-        private int currentlyLoadedScreen;
+        private int activeMainScreenID;
+        private int activeFloatScreenID;
+        private int previousMainScreenID;
 
-
+        /*
         private void ChangeActiveMenu(int screenIndex)
         {
             foreach(Panel pan in screenPanels)
@@ -45,23 +49,66 @@ namespace WindowsFormsApp1
             }
             (Configurator.screenList.Find(x => x.number == screenIndex).panel as Panel).Visible = true;
         }
+        */
 
         static string baseDir = "D:/Personal/Joshua/Downloads/repository.1024x768/";
 
-        public int CurrentlyLoadedScreen
+        public int MainScreen
         {
             get
             {
-                return currentlyLoadedScreen;
+                return activeMainScreenID;
             }
 
             set
             {
-                (Configurator.screenList.Find(x => x.number == value).panel as Panel).Visible = true;
-                (Configurator.screenList.Find(x => x.number == currentlyLoadedScreen).panel as Panel).Visible = false;
-                currentlyLoadedScreen = value;
+                
+                Panel b = (Configurator.screenList.Find(x => x.number == value).panel as Panel);
+                //checks screen type
+                Screen screenToLoad = b.Tag as Screen;
+                this.BackgroundImage = FetchImg(screenToLoad.bg);
+                if(screenToLoad.type != 1000)
+                {
+                    FloatMenu = -1;
+                }
+                //hides old screen, makes new screen visible
+                b.Visible = true;
+                (Configurator.screenList.Find(x => x.number == activeMainScreenID).panel as Panel).Visible = false;
+                previousMainScreenID = activeMainScreenID;
+                activeMainScreenID = value;
+                
             }
         }
+
+        public int FloatMenu
+        {
+            get
+            {
+                return activeFloatScreenID;
+            }
+            set
+            {
+                if (activeFloatScreenID != -1)
+                {
+                    Panel b = (Configurator.screenList.Find(x => x.number == activeFloatScreenID).panel as Panel);
+                    b.Visible = false;
+                    b.Size = panMainContent.Size;
+                    b.Top = panMainContent.Top;
+                }
+                if(value != -1)
+                {
+                    Panel c = (Configurator.screenList.Find(x => x.number == value).panel as Panel);
+                    c.Size = panFloatScreen.Size;
+                    c.Top = panFloatScreen.Top;
+                    c.BringToFront();
+                    c.Visible = true;
+                }
+                    
+                activeFloatScreenID = value;
+            }
+        }
+
+        
 
         private string FetchImgDir(string imgName)
         {
@@ -87,11 +134,11 @@ namespace WindowsFormsApp1
             foreach(Screen t in Configurator.screenList)
             {
                 Panel pan = new Panel();
-                pan.Top = panel2.Top;
-                pan.Left = panel2.Left;
-                pan.Height = panel2.Height;
-                pan.Width = panel2.Width;
-                pan.BackColor = panel2.BackColor;
+                pan.Top = panMainContent.Top;
+                pan.Left = panMainContent.Left;
+                pan.Height = panMainContent.Height;
+                pan.Width = panMainContent.Width;
+                pan.BackColor = panMainContent.BackColor;
                 pan.Tag = t;
                 t.panel = pan;
                 pan.Visible = false;
@@ -102,15 +149,41 @@ namespace WindowsFormsApp1
             {
                 Button y = new Button();
                 y.Tag = x;
-                y.Size = new Size(64 * x.h, 64 * x.w); //still needs 5 spacing accounted for
-                y.Top = (x.number / 10) * 70;
-                y.Left = ((x.number % 10) * (y.Width + 5)) + 5;
+                
+                if ((screenPanels.Find(p => p.Tag as Screen == x.screen).Tag as Screen).type == 1002)  // 1202 - floating, 1000 main, 1002 special
+                {
+                    y.Size = new Size(94 * x.h, 73 * x.w); //still needs 5 spacing accounted for
+                    y.Top = ((x.number - 3) / 7) * 78;
+                    if (x.h>1)
+                    {
+                        if(x.number == 3)
+                        {
+                            //ignore off center if menu title
+                            y.Left = ((x.number) % 7) * (94 + 5) + 5;
+                        }
+                        else
+                        {
+                            //if big button, adjust offset
+                            y.Left = ((x.number - 3) % 7) * (94 + 5) + 5;
+                        }
+                    }
+                    else
+                    {
+                        y.Left = ((x.number - 3) % 7) * (y.Width + 5) + 5;
+                    }
+                }
+                else
+                {
+                    y.Size = new Size(64 * x.h, 64 * x.w); //still needs 5 spacing accounted for
+                    y.Top = (x.number / 10) * 70;
+                    y.Left = ((x.number % 10) * (y.Width + 5)) + 5;
+                }
+                
                 try
                 {
-                    if (x.location != -1)
-                    {
-                        y.Click += Y_Click;
-                    }
+                    y.Click += Y_Click;
+                    y.MouseDown += Y_MouseDown;
+                    y.MouseUp += Y_MouseUp;
                     y.BackgroundImage = FetchImg(x.imgup);
                     y.BackgroundImageLayout = ImageLayout.Stretch;
                     y.Text = "";
@@ -130,7 +203,7 @@ namespace WindowsFormsApp1
                         //null
                     }
                     
-                    y.BackColor = Color.FromName(x.bgup);
+                    y.BackColor = Color.FromName(x.Bgup);
                     y.ForeColor = Color.FromName(x.textup);
                 }
                 screenPanels.Find(p => p.Tag as Screen == x.screen).Controls.Add(y);
@@ -143,11 +216,69 @@ namespace WindowsFormsApp1
             }
         }
 
+        private void Y_MouseUp(object sender, MouseEventArgs e)
+        {
+            Button x = sender as Button;
+            RegisterButton y = x.Tag as RegisterButton;
+            try
+            {
+                x.BackgroundImage = FetchImg(y.imgup);
+            }
+            catch
+            {
+                //could not load normal image
+            }
+        }
+
+        private void Y_MouseDown(object sender, MouseEventArgs e)
+        {
+            Button x = sender as Button;
+            RegisterButton y = x.Tag as RegisterButton;
+            try
+            {
+                x.BackgroundImage = FetchImg(y.imgdn);
+            }
+            catch
+            {
+                //could not load hover image
+                try
+                {
+                    x.BackgroundImage = FetchImg(y.imgup);
+                }
+                catch
+                {
+                    //could not load fallback normal image. Ignoring
+                }
+            }
+        }
+
         private void Y_Click(object sender, EventArgs e)
         {
             Button x = sender as Button;
             RegisterButton y = x.Tag as RegisterButton;
-            textScreenChange.Text = y.location.ToString();
+            foreach(string t in y.actionType)
+            {
+                if (t == "WF_ShowFloatScreen")
+                {
+                    FloatMenu = y.location;
+                }
+                else if (t == "WF_ShowScreen" || t == "WF_ShowManagerMenu")
+                {
+                    textScreenChange.Text = y.location.ToString();
+                }
+                else if (t == "WF_HideFloatScreen")
+                {
+                    FloatMenu = -1;
+                }
+                else if(t == "WF_BackToPreviousScreen")
+                {
+                    textScreenChange.Text = previousMainScreenID.ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Action Not Implemented: " + t);
+                }
+            } 
         }
 
         private void initCountButtons()
@@ -171,7 +302,7 @@ namespace WindowsFormsApp1
                     numButtons[i].Text = i.ToString();
                     numButtons[i].BackColor = Color.White;
                 }
-                panel2.Controls.Add(numButtons[i]);
+                panMainContent.Controls.Add(numButtons[i]);
             }
         }
 
@@ -181,7 +312,7 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    CurrentlyLoadedScreen = (int.Parse(textScreenChange.Text));
+                    MainScreen = (int.Parse(textScreenChange.Text));
                 }
                 catch
                 {

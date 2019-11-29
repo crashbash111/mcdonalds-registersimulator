@@ -121,4 +121,10 @@
   <data name="np6-clear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\np6-clear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="UserLogged" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UserLogged.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BckGround01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BckGround01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
