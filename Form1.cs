@@ -51,7 +51,7 @@ namespace WindowsFormsApp1
         }
         */
 
-        static string baseDir = "D:/Personal/Joshua/Downloads/repository.1024x768/";
+        static string baseDir = "./repository.1024x768/";
 
         public int MainScreen
         {
