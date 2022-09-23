@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,6 +26,26 @@ namespace WindowsFormsApp1
 
         private void UpdateLoader()
         {
+            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()
+            {
+                labScreen.Text = "Extracting images...";
+                //extracts images
+                Configurator.imgRepositoryExpectedZipPath = Configurator.posDataLocation + "/images/repository.1024x768.zip";
+                Configurator.imgRepositoryPath = Configurator.posDataLocation + "/images/repository.1024x768/";
+                try
+                {
+                    using (ZipArchive archive = ZipFile.Open(Configurator.imgRepositoryExpectedZipPath, ZipArchiveMode.Update))
+                    {
+                        archive.ExtractToDirectory(Configurator.imgRepositoryPath);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to extract expected images. The application may not function correctly.", Configurator.windowTitle);
+                }
+            });
+                
+            //loads main assets
             while (mainForm.loadingProgress < progressBar.Maximum-1)
             {
                     this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()

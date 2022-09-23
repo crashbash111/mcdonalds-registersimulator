@@ -51,7 +51,7 @@ namespace WindowsFormsApp1
         }
         */
 
-        static string baseDir = "./repository.1024x768/";
+        //static string baseDir = "./repository.1024x768/";
 
         public int MainScreen
         {
@@ -112,7 +112,7 @@ namespace WindowsFormsApp1
 
         private string FetchImgDir(string imgName)
         {
-            return baseDir + imgName;
+            return Configurator.imgRepositoryPath + imgName;
         }
 
         private Image FetchImg(string imgName)

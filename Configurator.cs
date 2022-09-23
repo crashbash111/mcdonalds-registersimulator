@@ -11,18 +11,62 @@ using WindowsFormsApp1.Properties;
 using System.Xml;
 using System.Drawing;
 
+
 namespace WindowsFormsApp1
 {
     static class Configurator
     {
+        //declares whether this instance requires the user to specify the simulator files
+        //USAGE: true = running in store location with WAY available, false = running on isolated hardware
+        static bool physicalStoreEnvironment = false;
+        //sets default paths (overridden when running in store environment)
         static string xmlPath = "./screen.xml";
         static string xmlPathOutages = "./prodoutage.xml";
+        public static string posDataLocation = "./";
+        public static string imgRepositoryPath = "./images/repository.1024x768/";
+        public static string imgRepositoryExpectedZipPath = "./images/repository.1024x768.zip";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
         public static List<Screen> screenList = new List<Screen>();
 
+        public static string windowTitle = "NP6 Simulator";
+
         static public bool ReadConfigurationFile()
         {
+            if (!physicalStoreEnvironment)
+            {
+                DialogResult r = MessageBox.Show("This instance is not running within a store environment. In the following dialog, please provide the location of NP6 register files.", windowTitle, MessageBoxButtons.OKCancel);
+                if(r == DialogResult.OK)
+                {
+                    //loops location prompt until valid path
+                    while (true)
+                    {
+                        using (var folderDialog = new FolderBrowserDialog())
+                        {
+                            DialogResult result = folderDialog.ShowDialog();
+                            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                            {
+                                posDataLocation = folderDialog.SelectedPath;
+                                SetPathVariables(Directory.GetFiles(folderDialog.SelectedPath));
+                                break;
+                            }
+                            else
+                            {
+                                if (MessageBox.Show("Please select a valid path.", windowTitle, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                                {
+                                    Application.Exit();
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+            
+            
             try
             {
                 Screen activeScreen = new Screen(-1, "", 1000,"");
@@ -118,6 +162,30 @@ namespace WindowsFormsApp1
                 return false;
             }
             return true;
+        }
+
+        private static void SetPathVariables(string[] strings)
+        {
+            foreach(string y in strings)
+            {
+                string x = y.Split('\\').Last();
+                switch (x)
+                {
+                    case "screen.xml":
+                        xmlPath = x;
+                        break;
+                    case "prodoutage.xml":
+                        xmlPathOutages = x;
+                        break;
+                }
+                if (x == "screen.xml")
+                {
+                    xmlPath = y;
+                }
+            }
+            
+            
+
         }
 
         static public string ConvertColour(string colorToConvert)
