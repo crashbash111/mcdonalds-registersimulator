@@ -14,3 +14,7 @@ As this project can dynamically read in register files, it will ultimately pull 
 ## Disclaimer
 No proprietary code has been used in this project. This simulator reverse-engineers a running NP6 system. All code has been written from scratch.
 As I do not have the appropriate licencing, no proprietary code has been included in this repository. In order to run this application, you must already have access to an existing store installation and obtain the files on your own.
+
+The contents of the Posdata you need to provide look a bit like this:
+
+![image](https://github.com/crashbash111/mcdonalds-registersimulator/assets/50429378/8039989a-6d26-4dc3-9048-636433143916)
