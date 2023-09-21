@@ -20,11 +20,11 @@ namespace WindowsFormsApp1
         //USAGE: true = running in store location with WAY available, false = running on isolated hardware
         static bool physicalStoreEnvironment = false;
         //sets default paths (overridden when running in store environment)
-        static string xmlPath = "./screen.xml";
-        static string xmlPathOutages = "./prodoutage.xml";
+        static string xmlPath = "/screen.xml";
+        static string xmlPathOutages = "/prodoutage.xml";
         public static string posDataLocation = "./";
-        public static string imgRepositoryPath = "./images/repository.1024x768/";
-        public static string imgRepositoryExpectedZipPath = "./images/repository.1024x768.zip";
+        public static string imgRepositoryPath = "/images/repository.1024x768/";
+        public static string imgRepositoryExpectedZipPath = "/images/repository.1024x768.zip";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
         public static List<Screen> screenList = new List<Screen>();
@@ -35,8 +35,8 @@ namespace WindowsFormsApp1
         {
             if (!physicalStoreEnvironment)
             {
-                DialogResult r = MessageBox.Show("This instance is not running within a store environment. In the following dialog, please provide the location of NP6 register files.", windowTitle, MessageBoxButtons.OKCancel);
-                if(r == DialogResult.OK)
+                DialogResult r = MessageBox.Show("This instance is not running within a store environment. In the following dialog, please provide the location of NP6 register files. This folder is typically called Posdata.", windowTitle, MessageBoxButtons.OKCancel);
+                if (r == DialogResult.OK)
                 {
                     //loops location prompt until valid path
                     while (true)
@@ -65,18 +65,20 @@ namespace WindowsFormsApp1
                     Application.Exit();
                 }
             }
-            
-            
+
+
             try
             {
-                Screen activeScreen = new Screen(-1, "", 1000,"");
+                Screen activeScreen = new Screen(-1, "", 1000, "");
                 Button activeButton = new Button();
                 XmlTextReader reader = new XmlTextReader(xmlPath);
-                while(reader.Read()){
-                    
-                    switch(reader.NodeType){
+                while (reader.Read())
+                {
+
+                    switch (reader.NodeType)
+                    {
                         case XmlNodeType.Element:
-                            if(reader.Name == "Screen")
+                            if (reader.Name == "Screen")
                             {
                                 int y = int.Parse(reader.GetAttribute("number"));
                                 if (y != activeScreen.number)
@@ -85,9 +87,11 @@ namespace WindowsFormsApp1
                                     screenList.Add(activeScreen);
                                 }
                             }
-                            if(reader.Name == "Button"){
+                            if (reader.Name == "Button")
+                            {
                                 RegisterButton tmpButton = new RegisterButton();
-                                try{
+                                try
+                                {
                                     tmpButton.title = reader.GetAttribute("title");
                                     tmpButton.number = int.Parse(reader.GetAttribute("number")) - 1;
                                     tmpButton.screen = activeScreen;//int.Parse(reader.GetAttribute("category"));
@@ -109,7 +113,7 @@ namespace WindowsFormsApp1
                                     }
 
                                     reader.Read();
-                                    while(reader.Name != "Button" && reader.NodeType != XmlNodeType.EndElement)
+                                    while (reader.Name != "Button" && reader.NodeType != XmlNodeType.EndElement)
                                     {
                                         //MessageBox.Show("loop" + tmpButton.title + " " + reader.NodeType.ToString() + " " + reader.Name);
                                         if (reader.Name == "Action")
@@ -127,27 +131,28 @@ namespace WindowsFormsApp1
                                                     reader.Read();
                                                 }
                                             }
-                                            else if(reader.GetAttribute("workflow") == "WF_ShowManagerMenu")
+                                            else if (reader.GetAttribute("workflow") == "WF_ShowManagerMenu")
                                             {
                                                 tmpButton.location = 900;
                                             }
                                         }
                                         reader.Read();
                                     }
-                                    
+
 
                                     testImgList.Add(tmpButton);
                                     activeScreen.buttons.Add(tmpButton);
                                 }
-                                catch{
+                                catch
+                                {
 
                                 }
-                                
+
                             }
-                            
+
                             break;
                         case XmlNodeType.Text:
-                            
+
                             //ConfFactory(reader.Value);
                             break;
                         case XmlNodeType.EndElement:
@@ -156,9 +161,9 @@ namespace WindowsFormsApp1
                     //ConfFactory(reader.Name);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                if(displayException) MessageBox.Show(e.ToString());
+                if (displayException) MessageBox.Show(e.ToString());
                 return false;
             }
             return true;
@@ -166,36 +171,42 @@ namespace WindowsFormsApp1
 
         private static void SetPathVariables(string[] strings)
         {
-            foreach(string y in strings)
-            {
-                string x = y.Split('\\').Last();
-                switch (x)
-                {
-                    case "screen.xml":
-                        xmlPath = x;
-                        break;
-                    case "prodoutage.xml":
-                        xmlPathOutages = x;
-                        break;
-                }
-                if (x == "screen.xml")
-                {
-                    xmlPath = y;
-                }
-            }
-            
-            
+            xmlPath = posDataLocation + xmlPath;
+            xmlPathOutages = posDataLocation + xmlPathOutages;
+            imgRepositoryPath = posDataLocation + imgRepositoryPath;
+            imgRepositoryExpectedZipPath = posDataLocation + imgRepositoryExpectedZipPath;
+
+            //code for dynamically fetching files as it finds them. Have hardcoded for now as it is not working.
+            //foreach(string y in strings)
+            //{
+            //    string x = y.Split('\\').Last();
+            //    switch (x)
+            //    {
+            //        case "screen.xml":
+            //            xmlPath = x;
+            //            break;
+            //        case "prodoutage.xml":
+            //            xmlPathOutages = x;
+            //            break;
+            //    }
+            //    if (x == "screen.xml")
+            //    {
+            //        xmlPath = y;
+            //    }
+            //}
+
+
 
         }
 
         static public string ConvertColour(string colorToConvert)
         {
             //checks to ensure colour code is converted to something Visual Studio supports
-            if(colorToConvert == "LIGHTRED")
+            if (colorToConvert == "LIGHTRED")
             {
                 return "Tomato";
             }
-            if(colorToConvert == "BRIGHTWHITE")
+            if (colorToConvert == "BRIGHTWHITE")
             {
                 return "FloralWhite";
             }
@@ -213,13 +224,13 @@ namespace WindowsFormsApp1
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            if(reader.Name == "Product")
+                            if (reader.Name == "Product")
                             {
                                 int codeToRemove = int.Parse(reader.GetAttribute("code"));
-                                foreach(Button x in list)
+                                foreach (Button x in list)
                                 {
                                     RegisterButton y = x.Tag as RegisterButton;
-                                    if(y.productCode == codeToRemove)
+                                    if (y.productCode == codeToRemove)
                                     {
                                         Label t = new Label();
                                         t.Text = "OUTAGE";
