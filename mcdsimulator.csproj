@@ -26,6 +26,9 @@
   <PropertyGroup>
     <ApplicationIcon>mcdonalds-2-569493.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\conf.ini" />
   </ItemGroup>
