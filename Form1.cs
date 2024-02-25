@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -62,20 +63,27 @@ namespace WindowsFormsApp1
 
             set
             {
-                
-                Panel b = (Configurator.screenList.Find(x => x.number == value).panel as Panel);
-                //checks screen type
-                Screen screenToLoad = b.Tag as Screen;
-                this.BackgroundImage = FetchImg(screenToLoad.bg);
-                if(screenToLoad.type != 1000)
+                try
                 {
-                    FloatMenu = -1;
+                    Panel b = (Configurator.screenList.Find(x => x.number == value).panel as Panel);
+                    //checks screen type
+                    Screen screenToLoad = b.Tag as Screen;
+                    this.BackgroundImage = FetchImg(screenToLoad.bg);
+                    if (screenToLoad.type != 1000)
+                    {
+                        FloatMenu = -1;
+                    }
+                    //hides old screen, makes new screen visible
+                    b.Visible = true;
+                    (Configurator.screenList.Find(x => x.number == activeMainScreenID).panel as Panel).Visible = false;
+                    previousMainScreenID = activeMainScreenID;
+                    activeMainScreenID = value;
                 }
-                //hides old screen, makes new screen visible
-                b.Visible = true;
-                (Configurator.screenList.Find(x => x.number == activeMainScreenID).panel as Panel).Visible = false;
-                previousMainScreenID = activeMainScreenID;
-                activeMainScreenID = value;
+                catch
+                {
+                    Debug.Print("Error loading panel. You probably should fix this...");
+                }
+                
                 
             }
         }
@@ -194,13 +202,9 @@ namespace WindowsFormsApp1
                 }
                 catch
                 {
-                    try
+                    if (x.title != null)
                     {
                         y.Text = (x.title.Replace(@"\n", Environment.NewLine));
-                    }
-                    catch
-                    {
-                        //null
                     }
                     
                     y.BackColor = Color.FromName(x.Bgup);

@@ -83,7 +83,9 @@ namespace WindowsFormsApp1
                                 int y = int.Parse(reader.GetAttribute("number"));
                                 if (y != activeScreen.number)
                                 {
+                                    
                                     activeScreen = new Screen(y, reader.GetAttribute("title"), int.Parse(reader.GetAttribute("type")), reader.GetAttribute("bgimage"));
+                                    Debug.Print($"Added new screen {activeScreen.title}");
                                     screenList.Add(activeScreen);
                                 }
                             }

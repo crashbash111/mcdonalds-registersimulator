@@ -29,20 +29,8 @@ namespace WindowsFormsApp1
             this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate ()
             {
                 labScreen.Text = "Extracting images...";
-                //extracts images
-                Configurator.imgRepositoryExpectedZipPath = Configurator.posDataLocation + "/images/repository.1024x768.zip";
-                Configurator.imgRepositoryPath = Configurator.posDataLocation + "/images/repository.1024x768/";
-                try
-                {
-                    using (ZipArchive archive = ZipFile.Open(Configurator.imgRepositoryExpectedZipPath, ZipArchiveMode.Update))
-                    {
-                        archive.ExtractToDirectory(Configurator.imgRepositoryPath);
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Failed to extract expected images. The application may not function correctly.", Configurator.windowTitle);
-                }
+                //zips no longer used since NPSharp upgrade
+                Configurator.imgRepositoryPath = Configurator.posDataLocation + "/images/POS_images/"; //use repository.1024x768 for posdata pre-2023
             });
                 
             //loads main assets
@@ -54,7 +42,10 @@ namespace WindowsFormsApp1
                         labScreen.Text = ("Loading " + Configurator.testImgList[mainForm.loadingProgress].screen.title.Replace(@"\n", " "));
                         try
                         {
-                            label.Text = (Configurator.testImgList[mainForm.loadingProgress].title.Replace(@"\n", " "));
+                            if(Configurator.testImgList[mainForm.loadingProgress] != null)
+                            {
+                                label.Text = (Configurator.testImgList[mainForm.loadingProgress].title.Replace(@"\n", " "));
+                            }
                         }
                         catch
                         {
