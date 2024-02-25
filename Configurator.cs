@@ -22,12 +22,15 @@ namespace WindowsFormsApp1
         //sets default paths (overridden when running in store environment)
         static string xmlPath = "/screen.xml";
         static string xmlPathOutages = "/prodoutage.xml";
+        static string xmlPathProductDb = "/product-db.xml";
         public static string posDataLocation = "./";
         public static string imgRepositoryPath = "/images/repository.1024x768/";
         public static string imgRepositoryExpectedZipPath = "/images/repository.1024x768.zip";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
         public static List<Screen> screenList = new List<Screen>();
+        public static ProductFactory productFactory;
+
 
         public static string windowTitle = "NP6 Simulator";
 
@@ -65,10 +68,16 @@ namespace WindowsFormsApp1
                     Application.Exit();
                 }
             }
-
-
+            //build products
+            productFactory = new ProductFactory(xmlPathProductDb);
+            foreach(Product p in productFactory.Products)
+            {
+                Console.WriteLine($"{p.ProductCode}: {p.FamilyGroup}, {p.DayPartCode}");
+            }
+            string x = "test";
             try
             {
+                //start building register buttons
                 Screen activeScreen = new Screen(-1, "", 1000, "");
                 Button activeButton = new Button();
                 XmlTextReader reader = new XmlTextReader(xmlPath);
@@ -175,6 +184,7 @@ namespace WindowsFormsApp1
         {
             xmlPath = posDataLocation + xmlPath;
             xmlPathOutages = posDataLocation + xmlPathOutages;
+            xmlPathProductDb = posDataLocation + xmlPathProductDb;
             imgRepositoryPath = posDataLocation + imgRepositoryPath;
             imgRepositoryExpectedZipPath = posDataLocation + imgRepositoryExpectedZipPath;
 
