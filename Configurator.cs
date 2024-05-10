@@ -23,7 +23,7 @@ namespace WindowsFormsApp1
         static string xmlPath = "/screen.xml";
         static string xmlPathOutages = "/prodoutage.xml";
         public static string posDataLocation = "./";
-        public static string imgRepositoryPath = "/images/repository.1024x768/";
+        public static string imgRepositoryPath = "/images/POS_images/";
         public static string imgRepositoryExpectedZipPath = "/images/repository.1024x768.zip";
         static bool displayException = true;
         public static List<RegisterButton> testImgList = new List<RegisterButton>();
@@ -83,10 +83,21 @@ namespace WindowsFormsApp1
                                 int y = int.Parse(reader.GetAttribute("number"));
                                 if (y != activeScreen.number)
                                 {
-                                    
-                                    activeScreen = new Screen(y, reader.GetAttribute("title"), int.Parse(reader.GetAttribute("type")), reader.GetAttribute("bgimage"));
-                                    Debug.Print($"Added new screen {activeScreen.title}");
-                                    screenList.Add(activeScreen);
+                                    string title = reader.GetAttribute("title");
+                                    string type = reader.GetAttribute("type");
+                                    string bgimage = reader.GetAttribute("bgimage");
+
+                                    if (title != null && type != null)
+                                    {
+                                        activeScreen = new Screen(y, title, int.Parse(type), bgimage);
+                                        Debug.Print($"Added new screen {activeScreen.title}");
+                                        screenList.Add(activeScreen);
+                                    }
+                                    else
+                                    {
+                                        // Handle the case where one or more attributes are null.
+                                        Debug.WriteLine("One or more attributes are null.");
+                                    }
                                 }
                             }
                             if (reader.Name == "Button")
@@ -105,14 +116,12 @@ namespace WindowsFormsApp1
                                     tmpButton.textdn = reader.GetAttribute("textdn");
                                     tmpButton.Bgup = reader.GetAttribute("bgup");
                                     tmpButton.Bgdn = reader.GetAttribute("bgdn");
-                                    try
+                                    string productCode = reader.GetAttribute("productCode");
+                                    if (int.TryParse(productCode, out int parsedProductCode) && parsedProductCode > 0)
                                     {
-                                        tmpButton.productCode = int.Parse(reader.GetAttribute("productCode"));
+                                        tmpButton.productCode = parsedProductCode;
                                     }
-                                    catch
-                                    {
-                                        //not a product
-                                    }
+                                    // If the parsing fails, parsedProductCode will be 0 and no exception will be thrown.
 
                                     reader.Read();
                                     while (reader.Name != "Button" && reader.NodeType != XmlNodeType.EndElement)
