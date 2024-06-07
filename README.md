@@ -10,6 +10,25 @@ As this project can dynamically read in register files, it will ultimately pull 
 
 ![image](https://github.com/crashbash111/mcdonalds-registersimulator/assets/50429378/c7328b0b-d704-469e-96fb-c55980b0d1ef)
 
+## Roadmap
+
+Below is a list of supported, work-in-progress, and not currently implemented features. You are welcome to open a new pull request and work toward these features, or contibute to existing branches.
+
+- [✔️] Read in POSDATA and images to recreate the register's appearance and screens
+- [✔️] Supports "floating" menus used in Australia and New Zealand's registers
+- [✔️] Supports special menu types with different layouts
+- [🔨] Reading in all supported products (dosale-integration branch)
+- [🔨] Adding to order functionality (dosale-integration branch)
+- [❌] Stored Orders
+- [❌] "Grill" options
+- [❌] "Sale" or "payment screen"
+- [❌] Manager swipe-card/pincode access
+- [❌] Selecting sizes
+- [❌] Runs independently of McDonalds POSDATA
+- [❌] KVS recreation and order routing
+- [❌] Migration to web-based POS instead of WinForms
+- [❌] Logged in users
+
 ## Legal Disclaimer
 
 This repository contains reverse-engineered software intended for educational and research purposes only. The "McDonald's" name, logo, and other related trademarks are owned by McDonald's Corporation and are used here for informational purposes only.
@@ -19,7 +38,7 @@ The code in this repository is developed independently and does not contain any 
 Users of this repository are required to obtain any necessary software or data from legitimate sources, and must comply with all applicable laws and regulations, including those concerning copyrights and trademarks. The creator of this repository does not assume any responsibility for unauthorized use of this content.
 
 Please ensure that your use of this material complies with all legal and ethical standards applicable in your jurisdiction.
-In order to run this application, you must already have access to an existing store installation and obtain the files on your own.
+In order to run this application, you must already have access to an existing store installation and obtain the files on your own. **I (the creator of this repository) will not provide you with these files.**
 
 The contents of the Posdata you need to provide look a bit like this:
 
